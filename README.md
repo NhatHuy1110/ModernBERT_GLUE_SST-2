@@ -15,16 +15,17 @@ The project focuses on:
 
 ### ModernBERT vs SBERT  
 
-| Feature                  | SBERT (2019)                                | ModernBERT (2024) |
-|--------------------------|----------------------------------------------|--------------------|
-| Architecture             | Encoder-only (BERT base/large)              | Encoder-only (Deep & Narrow, GPU-optimized) |
-| Max sequence length      | 512 tokens                                  | 8192 tokens |
-| Positional Embedding     | Absolute                                    | Rotary Positional Embedding (RoPE) |
-| Attention                | Full self-attention                         | Alternating Global-Local + FlashAttention |
-| Tokenizer                | WordPiece (BERT original)                   | Modern BPE, supports text + code |
-| Memory efficiency        | Moderate                                    | High (unpadded batching + FlashAttention) |
-| Training data            | ~3.3B tokens                                | 2 trillion tokens (web, code, scientific) |
-| GLUE (SST-2) performance | ~92–93%                                     | ~94–95% |
+| Feature | SBERT (2019) | ModernBERT (2024) |
+|---------|-------|------------|
+| **Nature** | Fine-tuning method on existing BERT encoder models. | A new encoder architecture trained from scratch. |
+| **Main Objective** | Optimized for **reasoning** and **sentence embeddings** (semantic similarity, semantic search). | Designed as a **modern encoder** with strong performance and efficiency across tasks: classification, retrieval (single & multi-vector), NER, ... |
+| **Core Architecture** | Built on top of BERT/RoBERTa encoders. **No modification** to the original architecture. | Fully re-designed architecture: RoPE, GeGLU, Pre-Norm. |
+| **Context Length** | Limited by original BERT (typically **512 tokens**). Struggles with long documents. | Supports **8192 tokens natively**. Efficiently handles long-context sequences. |
+| **Efficiency** | Improves reasoning speed over vanilla BERT for similarity via **sentence embeddings**. | **Superior efficiency** thanks to hardware-aware design: unpadding, Flash Attention. Much faster than legacy encoders. |
+| **Training Data** | Fine-tuned on small datasets (e.g., NLI) with similarity objective. | Pre-trained on **2T tokens** of diverse data (including code). |
+| **Applications** | Strong focus on **semantic textual similarity** and **semantic search**. | **Broad and versatile:** Classification, Retrieval (DPR & ColBERT), NER, Code Understanding, ... |
+| **Strengths** | - Simple and widely used sentence encoder. <br> - High efficiency for traditional similarity tasks. | - State-of-the-art results on many benchmarks. <br> - Excellent reasoning efficiency. <br> - Code support. <br> - Long-context support. <br> - Versatile and adaptable. |
+| **Weaknesses** | - Limited by encoder capacity. <br> - Poor long-context handling. <br> - Relies on smaller datasets for pre-training. | - Expensive pre-training cost. <br> - Currently limited multilingual support (mainly English). |
 
 **Conclusion:** ModernBERT delivers a **state-of-the-art encoder**, outperforming SBERT and other previous encoders in both accuracy and efficiency.
 
